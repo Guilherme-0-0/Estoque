@@ -1,0 +1,37 @@
+
+:root {
+    --cor-fundo: #000;
+    --cor-fundo-retangulo: linear-gradient(135deg, #154C5A 0%, #201D24 33.23%, #1E1C23 61.98%, #4A3532 100%);
+    --cor-texto: linear-gradient(180deg, #FFF 47%, #999 58%);
+    --cor-icons: #fff;
+    --cor-caixas: rgba(1, 2, 2, 0.40);
+}
+
+.caixa{ 
+    margin-top: 136px !important;
+    display: flex;
+    width: 349.051px;
+    height: 352.199px;
+    border-radius: 30px;
+    background: var(--cor-caixas);
+    box-shadow: 10.087px -10.087px 10.087px 0 rgba(1, 2, 2, 0.40) inset, -10.087px 10.087px 10.087px 0 rgba(255, 255, 255, 0.10) inset;
+    margin: 24px auto;
+    padding: 24px;
+    backdrop-filter: blur(50.43333435058594px);
+    opacity: 0;
+}
+
+/* ===== CAIXAS ===== */
+.caixa, .caixa2, .retangulo, .retangulo2 {
+    animation: fundoAnim 1s ease-in-out forwards;
+    animation-delay: 3s;
+}
+
+@keyframes fundoAnim {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
