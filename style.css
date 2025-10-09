@@ -1,3 +1,44 @@
+@media (min-width: 600px) and (max-width: 1024px) {
+    /* ...existing code... */
+    @keyframes logoatenafinal {
+        0% {
+            transform: translate(calc(-50% - 20%), -50%) scale(1);
+        }
+        100% {
+            /* Ajuste proporcional para tablets */
+            transform: translate(calc(-50% - 30vw), calc(-50% - 22vh)) scale(0.32);
+        }
+    }
+    @keyframes logocelcfinal {
+        0% {
+            transform: translate(calc(-50% + 20%), -50%) scale(1);
+        }
+        100% {
+            /* Ajuste proporcional para tablets */
+            transform: translate(calc(-50% - 30vw), calc(-50% + 22vh)) scale(0.32);
+        }
+    }
+}
+/* ===== RESPONSIVIDADE PARA TABLETS ===== */
+@media (min-width: 600px) and (max-width: 1024px) {
+    body {
+        padding: 6px;
+        font-size: 1rem;
+    }
+    .logo_atena, .logo_celc {
+        width: 90vw;
+        height: 60vh;
+        max-width: 600px;
+        max-height: 400px;
+    }
+    .fundo {
+        width: calc(100% - 12px);
+        height: calc(100vh - 12px);
+        top: 6px;
+        left: 6px;
+        border-radius: 18px;
+    }
+}
 :root {
     --cor-fundo: #000;
     --cor-fundo-retangulo: linear-gradient(135deg, #154C5A 0%, #201D24 33.23%, #1E1C23 61.98%, #4A3532 100%);
