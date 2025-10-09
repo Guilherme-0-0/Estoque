@@ -104,7 +104,7 @@ body {
         transform: translate(calc(-50% - 20%), -50%) scale(1);
     }
     100% {
-        transform: translate(calc(-50% - 47%), calc(-50% - 44.5vh)) scale(0.19);
+        transform: translate(calc(-50% - 46%), calc(-50% - 42.5vh)) scale(0.19);
     }
 }
 
@@ -157,7 +157,7 @@ body {
         transform: translate(calc(-50% + 20%), -50%) scale(1) ;
     }
     100% {
-        transform: translate(calc(-50% - 47%), calc(-50% + 44.5vh)) scale(0.19);
+        transform: translate(calc(-50% - 46%), calc(-50% + 43.5vh)) scale(0.19);
     }
 }
 
