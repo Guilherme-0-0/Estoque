@@ -1,1 +1,0 @@
-# Meu estoque do meu figma
