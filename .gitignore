@@ -1,0 +1,13 @@
+# Ignorar a pasta do ambiente virtual
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Ignorar o banco de dados (ajuste o nome para o seu arquivo .db)
+estoque.db
+*.sqlite3
+
+# Ignorar arquivos do VS Code ou outros editores
+.vscode/
+.idea/
