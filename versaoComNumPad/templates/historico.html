@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="{{ 'es' if lang == 'es' else 'pt-br' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ t('view_history') }} - {{ t('stock_management') }}</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/LogoAtena.png') }}" type="image/x-icon">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/telainicial.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/historico.css') }}">
+</head>
+<body>
+    <!-- Header com Menu -->
+    <header class="top-bar">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='img/LogoAtena.png') }}" alt="Logo" class="logo">
+            <h1>{{ t('history_title') }}</h1>
+        </div>
+        <nav class="menu" role="navigation" aria-label="menu principal">
+            <a href="{{ url_for('home') }}" class="menu-btn" aria-label="{{ t('home') }}"><i class="bi bi-house"></i> {{ t('home') }}</a>
+            <a href="{{ url_for('adicionar_produto') }}" class="menu-btn" aria-label="{{ t('add_product') }}"><i class="bi bi-plus-circle"></i> {{ t('add_product') }}</a>
+            <a href="{{ url_for('retirada') }}" class="menu-btn" aria-label="{{ t('withdraw') }}"><i class="bi bi-box-arrow-left"></i> {{ t('withdraw') }}</a>
+            <a href="#" class="menu-btn active" aria-label="{{ t('view_history') }}"><i class="bi bi-clock-history"></i> {{ t('view_history') }}</a>
+            <a href="{{ url_for('logout') }}" class="menu-btn danger" aria-label="{{ t('logout') }}"><i class="bi bi-box-arrow-right"></i> {{ t('logout') }}</a>
+        </nav>
+        
+        <!-- Language Switcher -->
+        <div class="language-switcher">
+            <a href="{{ url_for('change_language', lang='pt') }}" class="lang-btn {{ 'active' if lang == 'pt' else '' }}">🇧🇷</a>
+            <a href="{{ url_for('change_language', lang='es') }}" class="lang-btn {{ 'active' if lang == 'es' else '' }}">🇪🇸</a>
+        </div>
+    </header>
+
+    <!-- Container Principal -->
+    <main class="main-container">
+        <!-- Controles Superiores -->
+        <section class="top-controls">
+            <div class="period-selector">
+                <label for="periodoSelect">
+                    <i class="bi bi-funnel"></i>
+                    {{ t('view_period') if lang == 'pt' else 'Ver período' }}:
+                </label>
+                <select id="periodoSelect" class="filter-input" onchange="changePeriodo()">
+                    <option value="today" {{ 'selected' if periodo == 'today' else '' }}>
+                        {{ t('today') if lang == 'pt' else 'Hoje' }}
+                    </option>
+                    <option value="week" {{ 'selected' if periodo == 'week' else '' }}>
+                        {{ t('last_7_days') if lang == 'pt' else 'Últimos 7 dias' }}
+                    </option>
+                    <option value="month" {{ 'selected' if periodo == 'month' else '' }}>
+                        {{ t('last_30_days') if lang == 'pt' else 'Últimos 30 dias' }}
+                    </option>
+                    <option value="current_month" {{ 'selected' if periodo == 'current_month' else '' }}>
+                        {{ t('current_month') if lang == 'pt' else 'Este mês' }}
+                    </option>
+                    <option value="last_month" {{ 'selected' if periodo == 'last_month' else '' }}>
+                        {{ t('last_month') if lang == 'pt' else 'Mês passado' }}
+                    </option>
+                    <option value="year" {{ 'selected' if periodo == 'year' else '' }}>
+                        {{ t('this_year') if lang == 'pt' else 'Este ano' }}
+                    </option>
+                    <option value="all" {{ 'selected' if periodo == 'all' else '' }}>
+                        {{ t('all_movements') if lang == 'pt' else 'Todas as movimentações' }}
+                    </option>
+                    <option value="custom" {{ 'selected' if periodo == 'custom' else '' }}>
+                        {{ t('specific_date') if lang == 'pt' else 'Data específica...' }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="custom-date-picker{% if periodo != 'custom' %} hidden{% endif %}" id="customDatePicker">
+                <label for="customDate">
+                    <i class="bi bi-calendar3"></i>
+                    {{ t('date') }}:
+                </label>
+                <input type="date" id="customDate" class="filter-input" value="{{ custom_date }}" onchange="applyCustomDate()">
+            </div>
+            
+            <button class="export-btn" onclick="exportarHistorico()">
+                <i class="bi bi-file-earmark-spreadsheet"></i>
+                {{ t('export_excel') }}
+            </button>
+        </section>
+
+        <!-- Info do período -->
+        <section class="period-info">
+            <div class="info-badge">
+                <i class="bi bi-info-circle"></i>
+                <span>{{ t('showing') if lang == 'pt' else 'Mostrando' }}: <strong>{{ total_movimentacoes }}</strong> {{ t('movements_from') if lang == 'pt' else 'movimentações de' }} <strong>{{ periodo_display }}</strong></span>
+            </div>
+        </section>
+
+        <!-- Lista de Movimentações -->
+        <section class="history-list">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>{{ t('date_time') }}</th>
+                        <th>{{ t('product') }}</th>
+                        <th>{{ t('code') }}</th>
+                        <th>{{ t('action') }}</th>
+                        <th>{{ t('quantity_label') }}</th>
+                        <th>{{ t('responsible') }}</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    {% for mov in movimentacoes %}
+                    <tr class="movement-row {{ 'entrada' if mov.action == 'entrada' else 'saida' }}">
+                        <td>{{ mov.timestamp.strftime('%d/%m/%Y %H:%M') }}</td>
+                        <td>{{ mov.name }}</td>
+                        <td>{{ mov.product_barcode }}</td>
+                        <td>
+                            <span class="action-badge {{ mov.action }}">
+                                {% if mov.action == 'entrada' %}
+                                <i class="bi bi-box-arrow-in-down"></i>
+                                {% else %}
+                                <i class="bi bi-box-arrow-up"></i>
+                                {% endif %}
+                                {{ mov.action.title() }}
+                            </span>
+                        </td>
+                        <td>{{ mov.quantidade }}</td>
+                        <td class="motivo-cell">{{ mov.motivo if mov.motivo else '-' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Paginação -->
+            <div class="pagination">
+                {% if has_prev %}
+                <a href="{{ url_for('historico', page=current_page-1, periodo=periodo, date=custom_date if periodo == 'custom' else '') }}" class="page-btn">&laquo; {{ t('previous') }}</a>
+                {% endif %}
+                
+                <span class="page-info">{{ t('page_of') }} {{ current_page }} {{ t('of') }} {{ total_pages }}</span>
+                
+                {% if has_next %}
+                <a href="{{ url_for('historico', page=current_page+1, periodo=periodo, date=custom_date if periodo == 'custom' else '') }}" class="page-btn">{{ t('next') }} &raquo;</a>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer de créditos -->
+    <footer class="app-footer" role="contentinfo" style="text-align: center; padding: 1.5rem; margin-top: 2rem; border-top: 1px solid #ddd;">
+        <div>
+            {{ t('project_description') }} — <a href="{{ url_for('creditos') }}" title="{{ t('credits') }}" style="color: inherit; text-decoration: underline;">{{ t('developed_by') }} Equipe Atena Maker</a>
+        </div>
+    </footer>
+
+    <script>
+        function changePeriodo() {
+            const periodo = document.getElementById('periodoSelect').value;
+            const customDatePicker = document.getElementById('customDatePicker');
+            
+            // Mostra/oculta o date picker baseado na seleção
+            if (periodo === 'custom') {
+                customDatePicker.style.display = 'flex';
+            } else {
+                customDatePicker.style.display = 'none';
+                // Redireciona imediatamente para outros períodos
+                window.location.href = `{{ url_for('historico') }}?periodo=${periodo}`;
+            }
+        }
+
+        function applyCustomDate() {
+            const customDate = document.getElementById('customDate').value;
+            if (customDate) {
+                window.location.href = `{{ url_for('historico') }}?periodo=custom&date=${customDate}`;
+            }
+        }
+
+        function exportarHistorico() {
+            const periodo = document.getElementById('periodoSelect').value;
+            let url = `{{ url_for('exportar_historico') }}?periodo=${periodo}`;
+            
+            if (periodo === 'custom') {
+                const customDate = document.getElementById('customDate').value;
+                url += `&date=${customDate}`;
+            }
+            
+            window.location.href = url;
+        }
+    </script>
+    <!-- high_contrast removed -->
+</body>
+</html>

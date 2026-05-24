@@ -1,0 +1,950 @@
+/* high_contrast.css neutralized - styles removed */
+
+/* Ícones de status */
+body.high-contrast .icon-success {
+  color: #00FF00 !important;
+}
+
+body.high-contrast .icon-danger,
+body.high-contrast .icon-error {
+  color: #FF0000 !important;
+}
+
+body.high-contrast .icon-warning {
+  color: #FFFF00 !important;
+}
+
+/* ============================================================================
+   MODAIS - Destaque com borda amarela
+   ============================================================================ */
+
+body.high-contrast .modal-overlay,
+body.high-contrast .modal-backdrop {
+  background: rgba(0, 0, 0, 0.98) !important;
+}
+
+body.high-contrast .modal,
+body.high-contrast .modal-content,
+body.high-contrast .modal-dialog {
+  background: #000000 !important;
+  border: 3px solid #FFFF00 !important;
+}
+
+body.high-contrast .modal-header {
+  background: #000000 !important;
+  border-bottom: 2px solid #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+body.high-contrast .modal-title {
+  color: #FFFF00 !important;
+  font-weight: 700 !important;
+}
+
+body.high-contrast .modal-body {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+}
+
+body.high-contrast .modal-footer {
+  background: #000000 !important;
+  border-top: 2px solid #FFFFFF !important;
+}
+
+/* Botão de fechar modal */
+body.high-contrast .modal-close,
+body.high-contrast .close {
+  color: #FFFFFF !important;
+  background: #FF0000 !important;
+  border: 2px solid #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+/* ============================================================================
+   ESTATÍSTICAS E BADGES - Destaques visuais
+   ============================================================================ */
+
+body.high-contrast .stat-card {
+  background: #000000 !important;
+  border: 2px solid #FFFF00 !important;
+}
+
+body.high-contrast .stat-value,
+body.high-contrast .stat-number {
+  color: #FFFF00 !important;
+  font-weight: 700 !important;
+}
+
+body.high-contrast .stat-label {
+  color: #FFFFFF !important;
+  font-weight: 500 !important;
+}
+
+body.high-contrast .badge,
+body.high-contrast .tag {
+  background: #000000 !important;
+  border: 2px solid #FFFF00 !important;
+  color: #FFFF00 !important;
+  font-weight: 700 !important;
+}
+
+/* Badges de ação */
+body.high-contrast .action-badge.entrada,
+body.high-contrast .badge-entrada {
+  background: #000000 !important;
+  border: 2px solid #00FF00 !important;
+  color: #00FF00 !important;
+}
+
+body.high-contrast .action-badge.saida,
+body.high-contrast .badge-saida {
+  background: #000000 !important;
+  border: 2px solid #FF0000 !important;
+  color: #FF0000 !important;
+}
+
+/* ============================================================================
+   PAGINAÇÃO - Navegação clara
+   ============================================================================ */
+
+body.high-contrast .pagination {
+  border: none !important;
+}
+
+body.high-contrast .pagination a,
+body.high-contrast .page-btn,
+body.high-contrast .page-link {
+  background: #000000 !important;
+  border: 2px solid #FFFFFF !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+}
+
+body.high-contrast .pagination a:hover,
+body.high-contrast .page-btn:hover,
+body.high-contrast .page-link:hover {
+  background: #FFFF00 !important;
+  color: #000000 !important;
+  border-color: #FFFF00 !important;
+}
+
+body.high-contrast .pagination .active,
+body.high-contrast .page-item.active .page-link {
+  background: #FFFF00 !important;
+  color: #000000 !important;
+  border: 3px solid #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+body.high-contrast .pagination .disabled,
+body.high-contrast .page-item.disabled .page-link {
+  background: #000000 !important;
+  color: #666666 !important;
+  border: 1px solid #666666 !important;
+}
+
+/* ============================================================================
+   SCROLLBAR - Alto contraste
+   ============================================================================ */
+
+body.high-contrast ::-webkit-scrollbar {
+  width: 16px !important;
+  height: 16px !important;
+  background: #000000 !important;
+}
+
+body.high-contrast ::-webkit-scrollbar-track {
+  background: #000000 !important;
+  border: 1px solid #FFFFFF !important;
+}
+
+body.high-contrast ::-webkit-scrollbar-thumb {
+  background: #FFFF00 !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+body.high-contrast ::-webkit-scrollbar-thumb:hover {
+  background: #FFFFFF !important;
+  border: 2px solid #FFFF00 !important;
+}
+
+body.high-contrast ::-webkit-scrollbar-corner {
+  background: #000000 !important;
+}
+
+/* ============================================================================
+   AJUSTES ESPECÍFICOS PARA PRODUTOS
+   ============================================================================ */
+
+body.high-contrast .product-meta,
+body.high-contrast .product-meta span,
+body.high-contrast .product-info,
+body.high-contrast .product-name {
+  color: #FFFFFF !important;
+  font-weight: 500 !important;
+}
+
+body.high-contrast .product-title {
+  color: #FFFF00 !important;
+  font-weight: 700 !important;
+}
+
+body.high-contrast .quantity,
+body.high-contrast .stock-quantity {
+  color: #FFFF00 !important;
+  font-weight: 700 !important;
+}
+
+body.high-contrast .price,
+body.high-contrast .valor {
+  color: #00FF00 !important;
+  font-weight: 700 !important;
+}
+
+/* ============================================================================
+   FILTROS E CONTROLES
+   ============================================================================ */
+
+body.high-contrast .filters,
+body.high-contrast .filter-container {
+  background: #000000 !important;
+  border: 2px solid #FFFFFF !important;
+  padding: 12px !important;
+}
+
+body.high-contrast .filters select,
+body.high-contrast .filters input,
+body.high-contrast .filter-input {
+  background: #000000 !important;
+  border: 2px solid #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+body.high-contrast .filters label {
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+}
+
+/* ============================================================================
+   BOTÃO DE ALTO CONTRASTE
+   ============================================================================ */
+
+body.high-contrast .contrast-toggle {
+  background: #FFFF00 !important;
+  color: #000000 !important;
+  border: 3px solid #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+body.high-contrast .contrast-toggle:hover {
+  background: #FFFFFF !important;
+  color: #000000 !important;
+  border: 3px solid #FFFF00 !important;
+}
+
+/* ============================================================================
+   REMOVE EFEITOS VISUAIS DESNECESSÁRIOS
+   ============================================================================ */
+
+body.high-contrast *:hover {
+  transform: none !important;
+  transition: none !important;
+}
+
+body.high-contrast .product-card:hover img {
+  transform: none !important;
+}
+
+body.high-contrast::before,
+body.high-contrast::after,
+body.high-contrast *::before,
+body.high-contrast *::after {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* ============================================================================
+   FORMULÁRIOS E LABELS
+   ============================================================================ */
+
+body.high-contrast .form-label,
+body.high-contrast .input-label {
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+}
+
+body.high-contrast .required,
+body.high-contrast .obrigatorio {
+  color: #FF0000 !important;
+}
+
+/* ============================================================================
+   HR E SEPARADORES
+   ============================================================================ */
+
+body.high-contrast hr,
+body.high-contrast .divider {
+  border-color: #FFFFFF !important;
+  border-width: 2px !important;
+}
+
+/* ============================================================================
+   CHECKBOXES E RADIOS
+   ============================================================================ */
+
+body.high-contrast input[type="checkbox"],
+body.high-contrast input[type="radio"] {
+  border: 2px solid #FFFFFF !important;
+  background: #000000 !important;
+}
+
+body.high-contrast input[type="checkbox"]:checked,
+body.high-contrast input[type="radio"]:checked {
+  background: #FFFF00 !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+/* ============================================================================
+   TABELAS DE DADOS ADICIONAIS
+   ============================================================================ */
+
+body.high-contrast .data-table,
+body.high-contrast .table {
+  border: 2px solid #FFFFFF !important;
+}
+
+body.high-contrast .data-row {
+  border-bottom: 1px solid #FFFFFF !important;
+}
+
+body.high-contrast .data-label {
+  color: #FFFF00 !important;
+  font-weight: 700 !important;
+}
+
+body.high-contrast .data-value {
+  color: #FFFFFF !important;
+  font-weight: 500 !important;
+}
+
+/* ============================================================================
+   LOADING E SPINNERS
+   ============================================================================ */
+
+body.high-contrast .loading,
+body.high-contrast .spinner {
+  border-color: #FFFF00 !important;
+  color: #FFFF00 !important;
+}
+
+/* ============================================================================
+   TOOLTIP E POPOVER
+   ============================================================================ */
+
+body.high-contrast .tooltip,
+body.high-contrast .popover {
+  background: #000000 !important;
+  border: 2px solid #FFFF00 !important;
+  color: #FFFFFF !important;
+}
+
+/* ============================================================================
+   FOOTER
+   ============================================================================ */
+
+body.high-contrast .footer,
+body.high-contrast .app-footer {
+  background: #000000 !important;
+  border-top: 2px solid #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+/* ============================================================================
+   SVG E ÍCONES VETORIAIS - Forçar cores visíveis
+   ============================================================================ */
+
+body.high-contrast svg {
+  fill: #FFFF00 !important;
+  stroke: #FFFF00 !important;
+  color: #FFFF00 !important;
+}
+
+body.high-contrast svg path,
+body.high-contrast svg circle,
+body.high-contrast svg rect,
+body.high-contrast svg polygon,
+body.high-contrast svg line {
+  fill: #FFFF00 !important;
+  stroke: #FFFF00 !important;
+}
+
+/* SVG em botões */
+body.high-contrast button svg,
+body.high-contrast .btn svg,
+body.high-contrast .menu-btn svg,
+body.high-contrast .action-btn svg {
+  fill: #000000 !important;
+  stroke: #000000 !important;
+  color: #000000 !important;
+}
+
+body.high-contrast button svg path,
+body.high-contrast .btn svg path {
+  fill: #000000 !important;
+  stroke: #000000 !important;
+}
+
+/* SVG hover em botões */
+body.high-contrast button:hover svg,
+body.high-contrast .btn:hover svg {
+  fill: #000000 !important;
+  stroke: #000000 !important;
+}
+
+/* SVG em links */
+body.high-contrast a svg {
+  fill: #FFFF00 !important;
+  stroke: #FFFF00 !important;
+}
+
+/* ============================================================================
+   ÍCONES FONT AWESOME E BOOTSTRAP ICONS
+   ============================================================================ */
+
+body.high-contrast .fa,
+body.high-contrast .fas,
+body.high-contrast .far,
+body.high-contrast .fab,
+body.high-contrast .bi,
+body.high-contrast [class^="bi-"],
+body.high-contrast [class*=" bi-"] {
+  color: #FFFF00 !important;
+}
+
+/* Ícones em botões */
+body.high-contrast button .fa,
+body.high-contrast button .fas,
+body.high-contrast button .bi,
+body.high-contrast .btn .fa,
+body.high-contrast .btn .fas,
+body.high-contrast .btn .bi {
+  color: #000000 !important;
+}
+
+/* Ícones em botões hover */
+body.high-contrast button:hover .fa,
+body.high-contrast button:hover .bi,
+body.high-contrast .btn:hover .fa,
+body.high-contrast .btn:hover .bi {
+  color: #000000 !important;
+}
+
+/* ============================================================================
+   LOGO E IMAGENS DE MARCA
+   ============================================================================ */
+
+body.high-contrast .logo img,
+body.high-contrast .logo-img {
+  filter: invert(1) brightness(2) contrast(2) !important;
+  border: 2px solid #FFFF00 !important;
+}
+
+/* ============================================================================
+   ESTADOS DE FOCO REFORÇADOS
+   ============================================================================ */
+
+body.high-contrast *:focus,
+body.high-contrast *:focus-visible {
+  outline: 3px solid #FFFF00 !important;
+  outline-offset: 2px !important;
+}
+
+body.high-contrast button:focus,
+body.high-contrast .btn:focus,
+body.high-contrast input:focus,
+body.high-contrast select:focus,
+body.high-contrast textarea:focus {
+  outline: 3px solid #FFFF00 !important;
+  outline-offset: 2px !important;
+  border-width: 3px !important;
+}
+
+/* ============================================================================
+   ACESSIBILIDADE - Skip Links
+   ============================================================================ */
+
+body.high-contrast .skip-link,
+body.high-contrast .sr-only:focus {
+  background: #FFFF00 !important;
+  color: #000000 !important;
+  border: 3px solid #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+/* ============================================================================
+   ESPECÍFICOS PARA PÁGINAS DO SISTEMA
+   ============================================================================ */
+
+/* Login page */
+body.high-contrast .login-container {
+  background: #000000 !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+body.high-contrast .login-form {
+  background: #000000 !important;
+}
+
+body.high-contrast .login-title {
+  color: #FFFF00 !important;
+  font-weight: 700 !important;
+}
+
+/* Home/Dashboard */
+body.high-contrast .dashboard-header {
+  color: #FFFF00 !important;
+  border-bottom: 2px solid #FFFFFF !important;
+}
+
+body.high-contrast .stats-grid {
+  border: none !important;
+}
+
+/* Historico */
+body.high-contrast .history-table {
+  border: 2px solid #FFFFFF !important;
+}
+
+body.high-contrast .history-row:hover {
+  background: #1a1a1a !important;
+  outline: 2px solid #FFFF00 !important;
+}
+
+/* ============================================================================
+   IMPRESSÃO - Manter alto contraste
+   ============================================================================ */
+
+@media print {
+  body.high-contrast {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  
+  body.high-contrast * {
+    background: transparent !important;
+    color: #000000 !important;
+    border-color: #000000 !important;
+  }
+}
+
+/* ============================================================================
+   ANIMAÇÕES E TRANSIÇÕES - Desabilitar para reduzir distrações
+   ============================================================================ */
+
+body.high-contrast * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Manter apenas transições de foco para feedback */
+body.high-contrast *:focus {
+  transition: outline 0.1s ease !important;
+}
+
+/* ============================================================================
+   BOOTSTRAP CLASSES - Correções específicas
+   ============================================================================ */
+
+/* Form Controls */
+body.high-contrast .form-control,
+body.high-contrast .form-select {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+body.high-contrast .form-label {
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+}
+
+/* Cards e Card Body */
+body.high-contrast .card,
+body.high-contrast .card-body {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+body.high-contrast .card-title {
+  color: #FFFF00 !important;
+  font-weight: 700 !important;
+}
+
+/* Badges - Corrige texto que fica amarelo em fundo branco */
+body.high-contrast .badge {
+  background: #000000 !important;
+  color: #FFFF00 !important;
+  border: 2px solid #FFFF00 !important;
+}
+
+body.high-contrast .badge.text-bg-secondary,
+body.high-contrast .badge-qty {
+  background: #000000 !important;
+  color: #FFFF00 !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+/* Alert - Corrige fundos brancos */
+body.high-contrast .alert {
+  background: #000000 !important;
+  color: #FFFF00 !important;
+  border: 3px solid #FFFF00 !important;
+}
+
+body.high-contrast .alert-info {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+  border: 3px solid #FFFFFF !important;
+}
+
+/* Botões Bootstrap */
+body.high-contrast .btn-primary,
+body.high-contrast .btn-outline-primary {
+  background: #FFFF00 !important;
+  color: #000000 !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+body.high-contrast .btn-secondary,
+body.high-contrast .btn-outline-secondary {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+body.high-contrast .btn-success,
+body.high-contrast .btn-outline-success {
+  background: #00FF00 !important;
+  color: #000000 !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+body.high-contrast .btn-sm {
+  background: #FFFF00 !important;
+  color: #000000 !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+/* Input Groups */
+body.high-contrast .input-group {
+  border: none !important;
+}
+
+body.high-contrast .input-group input,
+body.high-contrast .input-group select {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+/* ============================================================================
+   CLASSES ESPECÍFICAS DO PROJETO
+   ============================================================================ */
+
+/* Form Fields e Form Groups */
+body.high-contrast .form-field,
+body.high-contrast .form-group,
+body.high-contrast .campo-completo {
+  background: transparent !important;
+  border: none !important;
+}
+
+body.high-contrast .form-field input,
+body.high-contrast .form-group input,
+body.high-contrast .form-field select,
+body.high-contrast .form-group select {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+body.high-contrast .form-field label,
+body.high-contrast .form-group label {
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+}
+
+/* Language Toggle */
+body.high-contrast .language-toggle {
+  background: transparent !important;
+}
+
+body.high-contrast .toggle-text {
+  color: #FFFFFF !important;
+}
+
+body.high-contrast .toggle-slider {
+  background: #FFFFFF !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+/* Modo Rápido Toggle (página adicionar estoque) */
+body.high-contrast .modo-rapido-container {
+  background: #000000 !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+body.high-contrast .toggle-label {
+  background: #000000 !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+body.high-contrast .toggle-checkbox:checked + .toggle-label {
+  background: #FFFF00 !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+body.high-contrast .toggle-title {
+  color: #FFFFFF !important;
+}
+
+body.high-contrast .toggle-description {
+  color: #FFFFFF !important;
+}
+
+/* Modal Container */
+body.high-contrast .modal-container {
+  background: #000000 !important;
+  border: 3px solid #FFFF00 !important;
+}
+
+/* Period Selector e Custom Date Picker */
+body.high-contrast .period-selector,
+body.high-contrast .custom-date-picker {
+  background: transparent !important;
+  border: none !important;
+}
+
+body.high-contrast .period-selector label,
+body.high-contrast .custom-date-picker label {
+  color: #FFFFFF !important;
+}
+
+body.high-contrast .filter-input {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+/* Export Button */
+body.high-contrast .export-btn {
+  background: #FFFF00 !important;
+  color: #000000 !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+/* Info Badge */
+body.high-contrast .info-badge {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+  border: 2px solid #FFFF00 !important;
+}
+
+body.high-contrast .info-badge strong {
+  color: #FFFF00 !important;
+}
+
+/* History Table */
+body.high-contrast .history-table {
+  background: #000000 !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+body.high-contrast .history-row {
+  background: #000000 !important;
+  border-bottom: 1px solid #FFFFFF !important;
+}
+
+body.high-contrast .history-row:nth-child(even) {
+  background: #0a0a0a !important;
+}
+
+/* Top Controls */
+body.high-contrast .top-controls {
+  background: #000000 !important;
+  border: 2px solid #FFFFFF !important;
+  padding: 15px !important;
+}
+
+/* Period Info */
+body.high-contrast .period-info {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Text Classes */
+body.high-contrast .text-primary {
+  color: #FFFF00 !important;
+}
+
+body.high-contrast .text-secondary {
+  color: #FFFFFF !important;
+}
+
+body.high-contrast .text-success {
+  color: #00FF00 !important;
+}
+
+body.high-contrast .text-danger {
+  color: #FF0000 !important;
+}
+
+body.high-contrast .text-warning {
+  color: #FFFF00 !important;
+}
+
+body.high-contrast .text-info {
+  color: #FFFFFF !important;
+}
+
+body.high-contrast .text-bg-secondary {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+}
+
+/* ============================================================================
+   TAILWIND CSS CLASSES - Usado na página adicionar_estoque
+   ============================================================================ */
+
+/* Backgrounds Tailwind */
+body.high-contrast .bg-white {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+}
+
+body.high-contrast .bg-green-100 {
+  background: #000000 !important;
+  color: #00FF00 !important;
+  border: 2px solid #00FF00 !important;
+}
+
+body.high-contrast .bg-red-100 {
+  background: #000000 !important;
+  color: #FF0000 !important;
+  border: 2px solid #FF0000 !important;
+}
+
+body.high-contrast .bg-gray-100,
+body.high-contrast .bg-gray-200,
+body.high-contrast .bg-gray-300 {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+}
+
+/* Text Colors Tailwind */
+body.high-contrast .text-gray-500,
+body.high-contrast .text-gray-600,
+body.high-contrast .text-gray-700 {
+  color: #FFFFFF !important;
+}
+
+body.high-contrast .text-green-700 {
+  color: #00FF00 !important;
+}
+
+body.high-contrast .text-red-500,
+body.high-contrast .text-red-700 {
+  color: #FF0000 !important;
+}
+
+body.high-contrast .text-xs,
+body.high-contrast .text-sm,
+body.high-contrast .text-lg {
+  color: #FFFFFF !important;
+}
+
+/* Borders Tailwind */
+body.high-contrast .border-gray-200,
+body.high-contrast .border-gray-300 {
+  border-color: #FFFFFF !important;
+}
+
+body.high-contrast .border-dashed {
+  border-style: dashed !important;
+  border-color: #FFFFFF !important;
+}
+
+body.high-contrast .border-2 {
+  border-width: 2px !important;
+}
+
+/* Fieldsets e Legends */
+body.high-contrast fieldset {
+  background: #000000 !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+body.high-contrast legend {
+  color: #FFFF00 !important;
+  font-weight: 700 !important;
+}
+
+/* Shadow */
+body.high-contrast .shadow-lg,
+body.high-contrast .shadow-sm,
+body.high-contrast .shadow-md {
+  box-shadow: none !important;
+}
+
+/* Rounded corners - mantém mas remove sombras */
+body.high-contrast .rounded-lg,
+body.high-contrast .rounded-xl,
+body.high-contrast .rounded-md {
+  box-shadow: none !important;
+}
+
+/* ============================================================================
+   CORREÇÕES FINAIS - Garante que nenhum elemento fique ilegível
+   ============================================================================ */
+
+/* Qualquer elemento com fundo branco deve ter texto preto OU ser revertido */
+body.high-contrast [style*="background: #fff"],
+body.high-contrast [style*="background: white"],
+body.high-contrast [style*="background:#fff"],
+body.high-contrast [style*="background:white"] {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+}
+
+/* Previne texto branco em fundo branco */
+body.high-contrast .bg-white,
+body.high-contrast .bg-light {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+}
+
+/* Previne texto amarelo em fundo branco */
+body.high-contrast .bg-white *,
+body.high-contrast .bg-light * {
+  color: #FFFFFF !important;
+}
+
+/* Garante que divs e sections sempre tenham fundo preto */
+body.high-contrast div,
+body.high-contrast section,
+body.high-contrast article,
+body.high-contrast aside {
+  background-color: #000000 !important;
+}
+
+/* Exceções para elementos que devem manter transparência */
+body.high-contrast .logo-container,
+body.high-contrast .menu,
+body.high-contrast .search-container {
+  background: transparent !important;
+}
+
+/* ============================================================================
+   FIM DO ARQUIVO HIGH CONTRAST CSS
+   ============================================================================ */

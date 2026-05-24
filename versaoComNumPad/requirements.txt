@@ -1,0 +1,9 @@
+Flask>=2.2.5
+openpyxl>=3.1.0
+pytest>=7.0.0  # opcional, para testes
+
+# Dependências adicionais que podem existir no projeto
+# - Jinja2 (já é dependência do Flask)
+# - click
+# - itsdangerous
+# - Werkzeug

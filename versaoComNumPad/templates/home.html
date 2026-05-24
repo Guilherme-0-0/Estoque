@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ t('home') }}</title>
+
+    <!-- CSS principal do projeto -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/home.css') }}">
+
+    <!-- Ícones: manter igual aos outros templates (Bootstrap Icons + Font Awesome) -->
+    <!-- Se outros templates usam CDN, replicar aqui -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        /* Ajustes mínimos para evitar desalinhamentos visuais */
+        .stat-card i { font-size: 1.5rem; margin-right: .5rem; }
+        .product-card img { object-fit: cover; width: 100%; height: 160px; }
+        .product-card .card-body { display: flex; flex-direction: column; gap: .25rem; }
+        .product-meta { font-size: .9rem; color: #555; }
+        .badge-qty { font-size: .85rem; }
+        .grid-actions .btn { min-width: 100px; }
+        .filters .form-select, .filters .form-control { min-width: 160px; }
+        .pagination { justify-content: center; }
+        /* Destaque visual por estado de validade */
+        .product-card { position: relative; overflow: hidden; border-radius: 12px; }
+
+        .product-card.expirado {
+            border: 3px solid #ff4d4f; /* vermelho */
+            box-shadow: 0 6px 18px rgba(255,77,79,0.12), 0 0 0 6px rgba(255,77,79,0.04);
+            transform: translateY(-2px);
+            transition: box-shadow .18s ease, transform .12s ease;
+        }
+        .product-card.proximo {
+            border: 3px solid #f6c84c; /* amarelo */
+            box-shadow: 0 6px 18px rgba(246,200,76,0.12), 0 0 0 6px rgba(246,200,76,0.04);
+            transform: translateY(-2px);
+            transition: box-shadow .18s ease, transform .12s ease;
+        }
+
+        /* Faixa colorida vertical à esquerda (acessível e discreta) */
+        .product-card.expirado::before,
+        .product-card.proximo::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+            z-index: 8;
+        }
+        .product-card.expirado::before { background: #ff4d4f; }
+        .product-card.proximo::before { background: #f6c84c; }
+
+        /* Aviso de validade: ribbon no topo do card para chamar atenção */
+        .validade-alert {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .5rem;
+            padding: .5rem .75rem;
+            z-index: 12;
+            font-weight: 700;
+            color: #fff;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+            transform: translateY(0);
+        }
+        .validade-alert i { font-size: 1rem; }
+
+        .product-card.expirado .validade-alert {
+            background: linear-gradient(90deg, #ff4d4f, #e8423f);
+            color: #fff;
+        }
+        .product-card.proximo .validade-alert {
+            background: linear-gradient(90deg, #f6c84c, #f1b800);
+            color: #000; /* texto escuro no amarelo para contraste */
+        }
+
+        /* Ajuste para que o conteúdo do card não fique escondido atrás do ribbon */
+        .product-card .card-body { padding-top: 1.25rem; }
+    </style>
+</head>
+<body>
+    <!-- Header com Menu e Busca -->
+    <header class="top-bar">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='img/LogoAtena.png') }}" alt="Logo" class="logo">
+            <h1>{{ t('stock_management') }}</h1>
+        </div>
+        <form class="search-container" action="{{ url_for('home') }}" method="get" role="search" aria-label="{{ t('search_placeholder') }}">
+            <label for="searchInput" class="sr-only">{{ t('search_placeholder') }}</label>
+            <input id="searchInput" 
+                   name="q" 
+                   type="text" 
+                   placeholder="{{ t('search_placeholder') }}" 
+                   class="search-input" 
+                   value="{{ request.args.get('q', '') }}"
+                   data-tooltip="Digite para buscar produtos por nome ou código"
+                   accesskey="s">
+            <button class="search-btn" aria-label="{{ t('search_placeholder') }}" data-tooltip="Buscar (Alt+S)"><i class="bi bi-search"></i></button>
+        </form>
+        <nav class="menu" role="navigation" aria-label="menu principal">
+            <a href="{{ url_for('home') }}" class="menu-btn active" aria-label="{{ t('home') }}"><i class="bi bi-house-fill"></i> {{ t('home') }}</a>
+            <a href="{{ url_for('adicionar_produto') }}" class="menu-btn" aria-label="{{ t('add_product') }}"><i class="bi bi-plus-circle"></i> {{ t('add_product') }}</a>
+            <a href="{{ url_for('retirada') }}" class="menu-btn" aria-label="{{ t('withdraw') }}"><i class="bi bi-box-arrow-left"></i> {{ t('withdraw') }}</a>
+            <a href="{{ url_for('historico') }}" class="menu-btn" aria-label="{{ t('view_history') }}"><i class="bi bi-clock-history"></i> {{ t('view_history') }}</a>
+            <a href="{{ url_for('logout') }}" class="menu-btn danger" aria-label="{{ t('logout') }}"><i class="bi bi-box-arrow-right"></i> {{ t('logout') }}</a>
+        </nav>
+        
+        <!-- Language Switcher -->
+        <div class="language-switcher">
+            <a href="{{ url_for('change_language', lang='pt') }}" class="lang-btn {{ 'active' if lang == 'pt' else '' }}">🇧🇷</a>
+            <a href="{{ url_for('change_language', lang='es') }}" class="lang-btn {{ 'active' if lang == 'es' else '' }}">🇪🇸</a>
+        </div>
+    </header>
+
+    <!-- Container Principal -->
+    <main class="container py-3">
+
+        <!-- Filtros avançados (oculto por padrão) -->
+        <details class="filters-advanced mb-3">
+            <summary class="filters-toggle" data-tooltip="Clique para mais filtros">
+                <i class="bi bi-funnel"></i> Filtros Avançados
+            </summary>
+            <form class="row g-2 align-items-end filters mt-2" method="get" action="{{ url_for('home') }}">
+                <div class="col-6 col-md-3">
+                    <label class="form-label">{{ t('name') }}</label>
+                    <input type="text" name="q" class="form-control" placeholder="{{ t('search_placeholder') }}" value="{{ request.args.get('q', '') }}" aria-label="{{ t('name') }}">
+                </div>
+                <!-- Removido input duplicado de nome -->
+                <div class="col-6 col-md-3">
+                    <label class="form-label">{{ t('category') }}</label>
+                    <select class="form-select" name="categoria" data-tooltip="Filtre por categoria de produto">
+                        <option value="">{{ t('all') }}</option>
+                        <option value="1" {{ 'selected' if request.args.get('categoria')=='1' else '' }}>{{ t('perishable') }}</option>
+                        <option value="2" {{ 'selected' if request.args.get('categoria')=='2' else '' }}>{{ t('non_perishable') }}</option>
+                        <option value="3" {{ 'selected' if request.args.get('categoria')=='3' else '' }}>Hortifrúti</option>
+                        <option value="4" {{ 'selected' if request.args.get('categoria')=='4' else '' }}>Limpeza</option>
+                    </select>
+                </div>
+                <div class="col-6 col-md-3">
+                    <label class="form-label">{{ t('sort_by_label') }}</label>
+                    <select class="form-select" name="ordenar" data-tooltip="Ordene a lista de produtos">
+                        <option value="validade" {{ 'selected' if request.args.get('ordenar','validade')=='validade' else '' }}>{{ t('validity') }}</option>
+                        <option value="nome" {{ 'selected' if request.args.get('ordenar')=='nome' else '' }}>{{ t('name') }}</option>
+                        <option value="quantidade" {{ 'selected' if request.args.get('ordenar')=='quantidade' else '' }}>{{ t('quantity') }}</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-2 d-grid">
+                    <button type="submit" class="btn btn-primary" data-tooltip="Aplicar filtros">
+                        <i class="bi bi-check2"></i> Aplicar
+                    </button>
+                </div>
+            </form>
+        </details>
+
+        <!-- Cards de métricas -->
+        <div class="row g-3 mb-3">
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card stat-card h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <i class="bi bi-box-seam text-primary"></i>
+                        <div>
+                            <div class="fw-semibold">Total de Itens</div>
+                            <div class="fs-5">{{ total_produtos }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card stat-card h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <i class="fa-solid fa-triangle-exclamation text-warning"></i>
+                        <div>
+                            <div class="fw-semibold">Baixo Estoque</div>
+                            <div class="fs-5">{{ produtos_baixos }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card stat-card h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <i class="bi bi-calendar-event text-success"></i>
+                        <div>
+                            <div class="fw-semibold">Próximo Vencimento</div>
+                            <div class="fs-6">{{ vencimento_proximo }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card stat-card h-100">
+                    <div class="card-body d-flex align-items-center">
+                        <i class="fa-solid fa-arrows-rotate text-info"></i>
+                        <div>
+                            <div class="fw-semibold">Movimentações Hoje</div>
+                            <div class="fs-5">{{ movimentacoes_hoje }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid de produtos -->
+        <div class="row g-3 products-grid">
+            {% for p in produtos %}
+            <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                <div class="card product-card h-100 {% if p.get('validade_status') == 'expirado' %}expirado{% elif p.get('validade_status') == 'proximo' %}proximo{% endif %}" data-id="{{ p['id'] }}">
+                    {% set img_src = p['image_path'] if p['image_path'] else 'placeholder.png' %}
+                    {% if img_src.startswith('/static/') %}
+                        <img src="{{ img_src }}" alt="{{ p['produto_nome'] }}" onerror="this.src='/static/img/placeholder.png'">
+                    {% else %}
+                        <img src="{{ url_for('serve_image', filename=img_src) }}" alt="{{ p['produto_nome'] }}" onerror="this.src='/static/img/placeholder.png'">
+                    {% endif %}
+
+                    <div class="card-body">
+                        <h3 style="display: none;">{{ p['produto_nome'] }}</h3>
+                        <div class="d-flex justify-content-between align-items-start">
+                            <h6 class="card-title mb-1">{{ p['produto_nome'] }}</h6>
+                            <span class="badge text-bg-secondary badge-qty">
+                                <i class="bi bi-stack"></i> <span class="quantity">{{ p['quantidade'] or 0 }}</span>
+                            </span>
+                        </div>
+                        <div class="product-meta">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-upc-scan"></i>
+                                <span>{{ p['codigo_de_barras'] }}</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-calendar2-check"></i>
+                                <span>{{ t('validity') }}: {{ p['validade_text'] }}</span>
+                            </div>
+                        </div>
+
+                        {% if p.get('validade_status') == 'expirado' %}
+                        <div class="validade-alert validade-expirado" title="Este produto expirou e deve ser removido do estoque imediatamente">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                            <span>EXPIRADO</span>
+                        </div>
+                        {% elif p.get('validade_status') == 'proximo' %}
+                        <div class="validade-alert validade-proximo" title="Este produto está próximo do vencimento. Faça uso logo deste item">
+                            <i class="bi bi-exclamation-circle-fill"></i>
+                            <span>Vence em breve</span>
+                        </div>
+                        {% endif %}
+
+                        <div class="d-flex gap-2 mt-2 grid-actions">
+                            <button type="button" 
+                                    class="btn btn-outline-primary btn-sm action-btn" 
+                                    data-action="remove"
+                                    data-tooltip="Retirar unidades do estoque"
+                                    aria-label="Retirar {{ p['produto_nome'] }}">
+                                <i class="fa-solid fa-box-open"></i> <span class="btn-text">Retirar</span>
+                            </button>
+                            <button type="button" 
+                                    class="btn btn-outline-success btn-sm action-btn" 
+                                    data-action="add"
+                                    data-tooltip="Adicionar unidades ao estoque"
+                                    aria-label="Adicionar {{ p['produto_nome'] }}">
+                                <i class="bi bi-plus-circle"></i> <span class="btn-text">Adicionar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12">
+                <div class="alert alert-info d-flex align-items-center" role="alert">
+                    <i class="bi bi-info-circle me-2"></i>
+                    {{ t('no_products_found') }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Paginação -->
+        <nav class="mt-4" aria-label="Paginação">
+          <ul class="pagination">
+            <li class="page-item {{ 'disabled' if not has_prev else '' }}">
+              <a class="page-link" href="{{ url_for('home', page=current_page-1, q=request.args.get('q',''), categoria=request.args.get('categoria'), ordenar=request.args.get('ordenar','validade')) }}">
+                <i class="bi bi-chevron-left"></i>
+              </a>
+            </li>
+
+            <li class="page-item disabled">
+              <span class="page-link">
+                Página {{ current_page }} de {{ total_pages }}
+              </span>
+            </li>
+
+            <li class="page-item {{ 'disabled' if not has_next else '' }}">
+              <a class="page-link" href="{{ url_for('home', page=current_page+1, q=request.args.get('q',''), categoria=request.args.get('categoria'), ordenar=request.args.get('ordenar','validade')) }}">
+                <i class="bi bi-chevron-right"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+    </main>
+
+    <!-- Footer de créditos -->
+    <footer class="app-footer" role="contentinfo">
+        <div>
+            {{ t('project_description') }} — <a href="{{ url_for('creditos') }}" title="{{ t('credits') }}">{{ t('developed_by') }} Equipe Atena Maker</a>
+        </div>
+    </footer>
+
+    <!-- Modal de Retirada -->
+    <div id="modalRetirada" class="modal-overlay" style="display: none;" onclick="fecharModalRetirada(event)">
+        <div class="modal-container" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2>{{ t('withdraw_product') }}</h2>
+                <button class="modal-close" onclick="fecharModalRetirada()" aria-label="{{ t('close') }}">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="product-modal-info">
+                    <h3 id="modal-produto-nome"></h3>
+                    <p>{{ t('available') }}: <strong id="modal-estoque-atual"></strong></p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="modal-quantidade">{{ t('quantity_to_withdraw') }}:</label>
+                    <div class="quantity-controls">
+                        <button type="button" onclick="ajustarQuantidadeModal(-1)" class="qty-btn">
+                            <i class="bi bi-dash"></i>
+                        </button>
+                        <input type="number" id="modal-quantidade" value="1" min="1" readonly>
+                        <button type="button" onclick="ajustarQuantidadeModal(1)" class="qty-btn">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>{{ t('who_withdrawing') }}</label>
+                    <div id="lista-responsaveis" class="responsaveis-list">
+                        <!-- Radio buttons preenchidos dinamicamente via JS -->
+                    </div>
+                    <div class="outro-responsavel-container" style="display: none;">
+                        <label for="modal-outro-responsavel">{{ t('other_name') }}</label>
+                        <input type="text" id="modal-outro-responsavel" class="form-control" placeholder="{{ t('enter_person_name') }}">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="abrirGerenciarResponsaveis()">
+                    <i class="bi bi-people"></i> {{ t('manage_names') }}
+                </button>
+                <button class="btn btn-secondary" onclick="fecharModalRetirada()">
+                    <i class="bi bi-x-circle"></i> Cancelar
+                </button>
+                <button class="btn btn-primary" onclick="confirmarRetirada()">
+                    <i class="bi bi-check-circle"></i> Confirmar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Gerenciamento de Responsáveis -->
+        <div id="modalGerenciarResponsaveis" class="modal-overlay" style="display: none;" onclick="fecharGerenciarResponsaveis(event)">
+        <div class="modal-container" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2>{{ t('manage_responsible') }}</h2>
+                <button class="modal-close" onclick="fecharGerenciarResponsaveis()" aria-label="{{ t('close') }}">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="novo-responsavel">{{ t('add_new_name') }}</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="novo-responsavel" class="form-control" placeholder="{{ t('enter_name') }}">
+                        <button class="btn btn-primary" onclick="adicionarResponsavel()">
+                            <i class="bi bi-plus-circle"></i> {{ t('add') }}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="responsaveis-gerenciar">
+                    <h3>{{ t('registered_names') }}</h3>
+                    <ul id="lista-responsaveis-gerenciar">
+                        <!-- Preenchido dinamicamente via JS -->
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="fecharGerenciarResponsaveis()">
+                    <i class="bi bi-check-circle"></i> {{ t('done') }}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Adição -->
+    <div id="modalAdicao" class="modal-overlay" style="display: none;" onclick="fecharModalAdicao(event)">
+        <div class="modal-container" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2>{{ t('add_product_modal') }}</h2>
+                <button class="modal-close" onclick="fecharModalAdicao()" aria-label="{{ t('close') }}">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="product-modal-info">
+                    <h3 id="modal-adicao-produto-nome"></h3>
+                    <p>{{ t('current_stock') }} <strong id="modal-adicao-estoque-atual"></strong></p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="modal-adicao-quantidade">{{ t('quantity_to_add') }}</label>
+                    <div class="quantity-controls">
+                        <button type="button" onclick="ajustarQuantidadeModalAdicao(-1)" class="qty-btn">
+                            <i class="bi bi-dash"></i>
+                        </button>
+                        <input type="number" id="modal-adicao-quantidade" value="1" min="1" readonly>
+                        <button type="button" onclick="ajustarQuantidadeModalAdicao(1)" class="qty-btn">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>{{ t('who_adding') }}</label>
+                    <div id="lista-responsaveis-adicao" class="responsaveis-list">
+                        <!-- Radio buttons preenchidos dinamicamente via JS -->
+                    </div>
+                    <div class="outro-responsavel-adicao-container" style="display: none;">
+                        <label for="modal-adicao-outro-responsavel">{{ t('other_name') }}</label>
+                        <input type="text" id="modal-adicao-outro-responsavel" class="form-control" placeholder="{{ t('enter_person_name') }}">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="abrirGerenciarResponsaveisDeAdicao()">
+                    <i class="bi bi-people"></i> {{ t('manage_names') }}
+                </button>
+                <button class="btn btn-secondary" onclick="fecharModalAdicao()">
+                    <i class="bi bi-x-circle"></i> Cancelar
+                </button>
+                <button class="btn btn-primary" onclick="confirmarAdicao()">
+                    <i class="bi bi-check-circle"></i> Confirmar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/home.js') }}"></script>
+    <!-- high_contrast removed -->
+    <script src="{{ url_for('static', filename='scripts/tooltips.js') }}"></script>
+    <script>
+        // Atalhos de teclado úteis
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + K para focar busca
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                document.getElementById('searchInput')?.focus();
+            }
+            // Ctrl/Cmd + H para voltar ao topo
+            if ((e.ctrlKey || e.metaKey) && e.key === 'h') {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+        
+        // Loading state nos botões de ação
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('.action-btn, .btn-primary');
+            if (btn && btn.type !== 'button') {
+                btn.classList.add('loading');
+                btn.disabled = true;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Processando...';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    btn.classList.remove('loading');
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>
