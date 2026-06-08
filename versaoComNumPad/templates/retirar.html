@@ -106,7 +106,8 @@
       </ol>
       <div class="instructions-tip">
         <i class="bi bi-lightbulb"></i>
-        <span><strong>Dica:</strong> Pressione Enter após digitar o código</span>
+        <span><strong>Dica:</strong>{{ t('press_enter_after_scanning') }}
+</span>
       </div>
     </div>
   </main>
@@ -121,52 +122,5 @@
   <script src="{{ url_for('static', filename='scripts/retirada.js') }}"></script>
   <!-- high_contrast removed -->
   <script src="{{ url_for('static', filename='scripts/tooltips.js') }}"></script>
-  <script>
-    // Melhorar feedback visual nos passos
-    const codigoInput = document.getElementById('codigo');
-    const campoValidade = document.getElementById('campo-validade');
-    
-    // Atualizar indicador de passo ativo
-    function updateActiveStep(stepNumber) {
-      document.querySelectorAll('.step').forEach((step, idx) => {
-        if (idx + 1 === stepNumber) {
-          step.classList.add('active');
-        } else if (idx + 1 < stepNumber) {
-          step.classList.add('completed');
-          step.classList.remove('active');
-        } else {
-          step.classList.remove('active', 'completed');
-        }
-      });
-    }
-    
-    // Observer para detectar quando o campo de validade aparece
-    if (campoValidade) {
-      const observer = new MutationObserver(() => {
-        if (campoValidade.style.display !== 'none') {
-          updateActiveStep(2);
-        }
-      });
-      observer.observe(campoValidade, { attributes: true, attributeFilter: ['style'] });
-    }
-    
-    // Quando digitar no código, mostrar feedback
-    if (codigoInput) {
-      codigoInput.addEventListener('input', (e) => {
-        if (e.target.value.length > 0) {
-          e.target.classList.add('has-value');
-        } else {
-          e.target.classList.remove('has-value');
-        }
-      });
-    }
-    
-    // Atalho: ESC para voltar
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && campoValidade.style.display !== 'none') {
-        document.getElementById('voltar-btn')?.click();
-      }
-    });
-  </script>
 </body>
 </html>

@@ -330,13 +330,18 @@ TRANSLATIONS = {
     },
     
     # ==================== RETIRAR PRODUTO ====================
+    'press_enter_after_scanning': {
+        'pt': 'Pressione Enter após digitar o código',
+        'es': 'Pulsa Intro después de escribir el código'
+    },
+
     'withdraw_product': {
         'pt': 'Retirar Produto',
         'es': 'Retirar Producto'
     },
     'scan_barcode': {
         'pt': 'Escaneie o Código de Barras',
-        'es': 'Escanee el Código de Barras'
+        'es': 'Escanear el código de barras'
     },
     'scan_expiration': {
         'pt': 'Selecione a data de vencimento',
@@ -360,7 +365,7 @@ TRANSLATIONS = {
     },
     'withdraw': {
         'pt': 'Retirar',
-        'es': 'Retirar'
+        'es': 'Quitar producto'
     },
     'insufficient_stock': {
         'pt': 'Estoque insuficiente',

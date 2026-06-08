@@ -7,6 +7,7 @@ Script para adicionar traduções rápidas nos templates HTML
 # Mapeamento de strings PT -> chaves de tradução
 TRANSLATIONS_MAP = {
     # Modals e Formulários
+    'Pressione Enter após digitar o código': "{{ t('press_enter_after_scanning') }}",
     'Quem está retirando?': "{{ t('responsible') }}?",
     'Gerenciar Nomes': "{{ t('manage_responsible') }}",
     'Cancelar': "{{ t('cancel') }}",
